@@ -1,2 +1,2 @@
-# pparbitrage
-Prize Picks Analytics tool 
+# PlayerPropAnalysis
+NBA Sports Betting Player Prop Analytics tool 
