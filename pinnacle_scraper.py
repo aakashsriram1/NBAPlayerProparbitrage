@@ -6,12 +6,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Set up Selenium with ChromeDriver
+
 options = Options()
-options.headless = False  # Set to True for headless mode after debugging
+options.headless = False  
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-# Function to get player stats and odds from Pinnacle
+
 def get_player_stats_and_odds(url):
     driver.get(url)
     try:
@@ -23,17 +23,17 @@ def get_player_stats_and_odds(url):
             try:
                 title_element = item.find_element(By.CSS_SELECTOR, 'span[class*="style_title"]')
                 title = title_element.text.strip()
-                print(f"Found title: {title}")  # Debug print
+                print(f"Found title: {title}")  
 
-                # Click to expand the section if it is collapsed
+                
                 if 'collapsed' in item.get_attribute('class'):
                     title_element.click()
                     wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div.style_button-wrapper__2u2GV')))
 
-                # Check if the title matches player stats format
+
                 if '(' in title and ')' in title:
-                    print("In player stats section")  # Debug print
-                    # Find the specific div containing the odds
+                    print("In player stats section") 
+                  
                     button_wrappers = item.find_elements(By.CSS_SELECTOR, 'div.style_button-wrapper__2u2GV')
                     if not button_wrappers:
                         print(f"No button wrappers found for {title}")
@@ -45,24 +45,24 @@ def get_player_stats_and_odds(url):
                             print(f"No buttons found in wrapper for {title}")
                         for button in buttons:
                             odd_text = button.text.strip().replace('\n', ' ')
-                            print(f"Found odd: {odd_text}")  # Debug print
+                            print(f"Found odd: {odd_text}")  
                             odds.append(odd_text)
 
                     if odds:
                         player_stats_and_odds.append((title, odds))
-                        print(f"Odds for {title}: {odds}")  # Debug print
+                        print(f"Odds for {title}: {odds}")  
             except Exception as e:
                 print(f"Error processing item: {e}")
         
         return player_stats_and_odds
     except Exception as e:
         print(f"An error occurred: {e}")
-        driver.quit()  # Ensure driver quits on error
+        driver.quit()  #
         raise4
     finally:
         driver.quit()
 
-# Example usage
+
 url = 'https://www.pinnacle.bet/en/basketball/nba/denver-nuggets-vs-minnesota-timberwolves/1591560922/#player-props'
 try:
     player_stats_and_odds = get_player_stats_and_odds(url)
