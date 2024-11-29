@@ -21,7 +21,6 @@ def get_game_links(driver):
     driver.get(url)
     try:
         wait = WebDriverWait(driver, 20)
-
         elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div.style_rowEnd__2vp0q > a')))
         
         game_links = [element.get_attribute('href') + '#player-props' for element in elements]
@@ -30,7 +29,6 @@ def get_game_links(driver):
     except Exception as e:
         print(f"An error occurred while getting game links: {e}")
         raise
-
 
 def get_pinnacle_data(driver, url):
     driver.get(url)
@@ -86,7 +84,6 @@ def get_pinnacle_data(driver, url):
         print(f"An error occurred: {e}")
         raise
 
-
 def get_prizepicks_data():
     url = 'https://partner-api.prizepicks.com/projections?league_id=7&per_page=10'
     response = requests.get(url)
@@ -112,13 +109,11 @@ def get_prizepicks_data():
         print("Failed to retrieve data")
         return []
 
-
 driver = setup_driver()
 try:
     pinnacle_urls = get_game_links(driver)
 finally:
     driver.quit()
-
 
 all_pinnacle_data = []
 driver = setup_driver()
@@ -179,7 +174,6 @@ pivot_table = pivot_table.reset_index()
 output_file = "sports_book_comparison.xlsx"
 if os.path.exists(output_file):
     os.remove(output_file)
-
 
 pivot_table.to_excel(output_file, index=False)
 
